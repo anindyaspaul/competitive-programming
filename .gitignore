@@ -1,0 +1,9 @@
+# ignore all files
+*
+
+# except directories, gitignore, c, cpp, java files
+!*/
+!*.c
+!*.cpp
+!*.java
+!.gitignore
