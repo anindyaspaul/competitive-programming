@@ -9,7 +9,7 @@ typedef long long LL;
 
 bool checkBit(LL mask, LL pos)
 {
-	return (mask & ((LL) 1 << pos)) == (LL) 0;
+	return (mask & ((LL) 1 << pos));
 }
 
 LL setBit(LL mask, LL pos)
@@ -23,52 +23,77 @@ LL setBit(LL mask, LL pos)
 #define NM 70
 
 int n;
-int v[NM], c[NM], u[NM];
+int u[NM], uc[NM];
+vector <int> v[NM], vc[NM];
 
-int calc(int i, int cap, LL mask)
+int CS;
+int dp[NM][VM];
+int chk[NM][VM];
+
+int calc(int i, int cap)
 {
 	if(i == n) return 0;
+	if(chk[i][cap] == CS) return dp[i][cap];
 
-	if(checkBit(mask, i)) return calc(i+1, cap, mask);
+	int ret1 = calc(i+1, cap);
 
-	int ret = calc(i+1, cap, mask);
-	if(u[i] == -1) { // no dependency
-		if(v[i] <= cap) {
-			ret = max(ret, calc(i+1, cap-v[i], setBit(mask, i)) + v[i]*c[i]);
+	int ret2 = 0;
+	if(u[i] != -1 && u[i] <= cap) {
+		cap -= u[i];
+		ret2 = u[i]*uc[i];
+		int tmp = calc(i+1, cap);
+		if(v[i].size() > 0) {
+			if(v[i][0] <= cap)
+				tmp = max(tmp, calc(i+1, cap-v[i][0]) + v[i][0]*vc[i][0]);
 		}
-	}
-	else if(u[i] < i) {
-		if(v[i] <= cap && checkBit(mask, u[i])) {
-			ret = max(ret, calc(i+1, cap-v[i], setBit(mask, i)) + v[i]*c[i]);
+		if(v[i].size() > 1) {
+			if(v[i][1] <= cap)
+				tmp = max(tmp, calc(i+1, cap-v[i][1]) + v[i][1]*vc[i][1]);
+			if(v[i][0]+v[i][1] <= cap)
+				tmp = max(tmp, calc(i+1, cap-v[i][0]-v[i][1])
+					+ v[i][0]*vc[i][0] + v[i][1]*vc[i][1]);
 		}
-	}
-	else {
-		if(v[i]+v[u[i]] <= cap) {
-			ret = max(ret, calc(i+1, cap-v[i]-v[u[i]], setBit(setBit(mask, u[i]), i))
-				+ v[i]*c[i] + v[u[i]]*c[u[i]]);
-		}
+		ret2 += tmp;
 	}
 
-	return ret;
+	chk[i][cap] = CS;
+	return dp[i][cap] = max(ret1, ret2);
 }
 
 int main()
 {
-	freopen("in.txt", "r", stdin);
+	// freopen("in.txt", "r", stdin);
 
 	int t;
 	scanf("%d", &t);
 
+	CS = 1;
 	while(t--) {
 		int cap;
 		scanf("%d %d", &cap, &n);
 
 		for(int i = 0; i < n; i++) {
-			scanf("%d %d %d", &v[i], &c[i], &u[i]);
-			u[i]--;
+			v[i].clear();
+			vc[i].clear();
 		}
 
-		printf("%d\n", calc(0, cap, 0));
+		for(int i = 0; i < n; i++) {
+			int x, y, z;
+			scanf("%d %d %d", &x, &y, &z);
+			if(z == 0) {
+				u[i] = x;
+				uc[i] = y;
+			}
+			else {
+				u[i] = -1;
+				uc[i] = 0;
+				v[z-1].push_back(x);
+				vc[z-1].push_back(y);
+			}
+		}
+
+		CS++;
+		printf("%d\n", calc(0, cap));
 	}
 
 	return 0;
