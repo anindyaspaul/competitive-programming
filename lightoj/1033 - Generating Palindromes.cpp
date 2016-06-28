@@ -1,6 +1,3 @@
-// Category : DP, LCS
-// Verdict  : AC
-
 #include <bits/stdc++.h>
 
 using namespace std;
