@@ -6,6 +6,7 @@ using namespace std;
 #define MOD 10007
 
 int par[MX];
+bool vis[MX];
 vector <int> graph[MX];
 
 int CS;
@@ -20,10 +21,11 @@ pair <int, int> calc(int u, int g)
 	if(chk[u][g] == CS)
 		return dp[u][g];
 
+    vis[u] = true;
 	pair <int, int> p(0, 1);
 	for(int i = 0; i < graph[u].size(); i++) {
 		int v = graph[u][i];
-		if(v != par[u]) {
+		if(!vis[v] && v != par[u]) {
 			par[v] = u;
 			if(g == 0) {
 				pair <int, int> ret = calc(v, 1);
@@ -83,7 +85,9 @@ int main()
 		}
 
 		CS++;
+		memset(vis, 0, sizeof(vis));
 		pair <int, int> ret1 = calc(0, 0);
+		memset(vis, 0, sizeof(vis));
 		pair <int, int> ret2 = calc(0, 1);
 
 		pair <int, int> ans;
