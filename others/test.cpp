@@ -1,36 +1,21 @@
 #include<bits/stdc++.h>
+
 using namespace std;
-
-vector<pair<int,int> > E;
-
-namespace std {
-    bool operator<(const pair<int,int> &u, const pair<int,int> &v)
-    {
-        if(u.first == v.first) return u.second > 0;
-        return u.first < v.first;
-    }
-}
-
-vector <int> vc;
 
 int main()
 {
+    srand(time(NULL));
 
-    E.push_back(make_pair(0, 1));
-    E.push_back(make_pair(0, -1));
-
-    sort(E.begin(), E.end());
-
-    for(auto x : E)
-        cout << x.first << " " << x.second << endl;
-
-    vc.push_back(1);
-    vc.push_back(0);
-
-    sort(vc.begin(), vc.end());
-
-    for(auto x: vc)
-        cout << x << endl;
+    long long cnt = 100000;
+    long long L = 100000;
+    long long avg = 0;
+    for(int i = 0; i < cnt; i++) {
+        long long x = rand()*L /RAND_MAX;
+        long long y = rand()*L /RAND_MAX;
+        avg += abs(x-y);
+    }
+    avg /= cnt;
+    cout << "Average: " << avg << endl;
 
     return 0;
 }
