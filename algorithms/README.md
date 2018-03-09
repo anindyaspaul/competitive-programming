@@ -1,3 +1,12 @@
-#algorithms
+# Code library of various algorithms and data structures
 
-standard code structure for different algorithms
+## Sorting
+- [ ] Quick Sort
+- [ ] Merge Sort
+
+## String
+- [x] Longest Palindromic Substring
+- [ ] String Permutation
+
+## Hybrid
+- [x] Minimum Vertex Cover
