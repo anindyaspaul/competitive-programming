@@ -3,3 +3,5 @@
 *.out
 *.pyc
 RemoteSystemsTempFiles
+cmake-build-debug
+.idea
