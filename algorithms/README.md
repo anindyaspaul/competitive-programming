@@ -4,6 +4,11 @@
 - [ ] Quick Sort
 - [ ] Merge Sort
 
+## Binary Search Tree
+- [ ] Inorder traversal using stack
+- [ ] Preorder traversal using stack
+- [ ] Postorder traversal using stack
+
 ## String
 - [x] Longest Palindromic Substring
 - [ ] String Permutation
