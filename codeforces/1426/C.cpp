@@ -5,7 +5,14 @@ using namespace std;
 void test_case(int kase) {
     int n;
     scanf("%d", &n);
-    printf("%d\n", n);
+    
+    int ans = INT_MAX;
+    for(int i = 1; i*i <= n; i++) {
+        int moves = i-1;
+        moves += ((n-i + i-1)/i);
+        ans = min(ans, moves);
+    }
+    printf("%u\n", ans);
 }
 
 int main() {
